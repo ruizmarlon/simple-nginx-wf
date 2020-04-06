@@ -10,44 +10,7 @@ on:
     paths:
       - "**Dockerfile**"
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: apache install and build webpack
-        run: |
-          apache install
-          apache run build
-      - uses: actions/upload-artifact@master
-        with:
-          name: webpack artifacts
-          path: public/
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    strategy:
-      matrix:
-        os: [ubuntu-lastest, windows-2016]
-        apache: [1.17.x-alpine]
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: Use Apache ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          apache-version: ${{ matrix.node-version }}
-      - uses: actions/download-artifact@master
-        with:
-          name: webpack artifacts
-          path: public
-      - name: apache install, and test
-        run: |
-          apache install
-          apaceh test
-        env:
-          CI: true
-
+  
   Build-and-Push-Docker-Image:
     runs-on: ubuntu-latest
     needs: test
